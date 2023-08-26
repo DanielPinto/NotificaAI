@@ -47,7 +47,7 @@ class _SettingPageState extends State<SettingPage> {
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
               ),
               getBody(),
-              firebaseStoregeServiceProvider.conditionals.length == 1
+              firebaseStoregeServiceProvider.conditionals.length == 2
                   ? const Padding(
                       padding: EdgeInsets.only(top: 27.0),
                       child: Text(
@@ -78,7 +78,10 @@ class _SettingPageState extends State<SettingPage> {
             shrinkWrap: true,
             itemCount: firebaseStoregeServiceProvider.listZones.length,
             itemBuilder: (context, index) {
-              return getCard(firebaseStoregeServiceProvider.listZones[index]);
+              return firebaseStoregeServiceProvider.listZones[index].sigla !=
+                      "TODAS"
+                  ? getCard(firebaseStoregeServiceProvider.listZones[index])
+                  : Container();
             }),
       );
 }

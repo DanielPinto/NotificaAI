@@ -48,6 +48,8 @@ class FirebaseStoregeService {
           .getDeviceFirebaseToken()
           .then((value) => token = value);
 
+      print("TOKEN: " + token);
+
       Response response = await dio.get(
         'https://iid.googleapis.com/iid/info/$token?details=true',
         options: Options(headers: {
@@ -111,9 +113,12 @@ class FirebaseStoregeService {
       if (!conditionals.contains(zoneId)) {
         conditionals.add(zoneId);
         FirebaseMessaging.instance.subscribeToTopic(zoneId);
-      } else if (conditionals.length > 1) {
+      } else if (conditionals.length > 2) {
+        print(conditionals.length);
+
         conditionals.remove(zoneId);
         FirebaseMessaging.instance.unsubscribeFromTopic(zoneId);
+        print(conditionals.toString());
       }
       getNotifications();
     } on Exception {
