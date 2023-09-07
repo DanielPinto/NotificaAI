@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:appnotify/routes/routes.dart';
 import 'package:appnotify/services/notification_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +19,33 @@ class FirebaseMessagingService {
       sound: true,
       alert: true,
     );
+
+    _getPermission();
     getDeviceFirebaseToken();
     _onMessage();
     _onMessageOpenedApp();
+  }
+
+  Future<bool> _getPermission() async {
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      return true;
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<String> getDeviceFirebaseToken() async {

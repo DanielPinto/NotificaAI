@@ -28,18 +28,16 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
 
     Provider.of<FirebaseMessagingService>(context, listen: false).initialize();
 
-    firebaseStoregeServiceProvider =
-        Provider.of<FirebaseStoregeService>(context, listen: false);
-
-    initializeFirebaseStoregeService().then((value) {
-      setState(() {
-        statusChangeNotifications = true;
-      });
-    });
+    initializeFirebaseStoregeService();
   }
 
   Future<void> initializeFirebaseStoregeService() async {
+    firebaseStoregeServiceProvider =
+        Provider.of<FirebaseStoregeService>(context, listen: false);
     await firebaseStoregeServiceProvider.initialize();
+    setState(() {
+      statusChangeNotifications = true;
+    });
   }
 
   viewSelectedNotication(int index, BuildContext context) {
